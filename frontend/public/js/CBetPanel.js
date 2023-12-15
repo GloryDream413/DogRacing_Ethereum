@@ -22,7 +22,7 @@ function CBetPanel(){
         _iChipSelected = 0;
         _aHistory = new Array();
         $("#money").click ((e)=> {
-            if (e.target.value == 0) {
+            if (e.target.value === 0) {
                 this.clearBet ()
             }
             this.setMoney (e.target.value)
