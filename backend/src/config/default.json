@@ -1,0 +1,5 @@
+{
+  "url": "mongodb://localhost:27017/dogracing",
+  "jwtSecret": "mysecrettoken",
+  "tokenExpiration": 10
+}

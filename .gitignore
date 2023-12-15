@@ -1,0 +1,8 @@
+backend/node_modules
+backend/package-lock.json
+backend/.env
+frontend/node_modules
+frontend/build
+frontend/yarn-error.log
+frontend/yarn.lock
+frontend/package-lock.json
