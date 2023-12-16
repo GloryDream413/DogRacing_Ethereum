@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
+import { BrowserRouter, Route, Switch } from "react-router-dom";
 import 'react-app-polyfill/ie11';
 import 'react-app-polyfill/stable';
 // styles for this kit
