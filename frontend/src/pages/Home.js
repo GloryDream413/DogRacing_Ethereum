@@ -158,9 +158,6 @@ function Home() {
         setLoadingView(false);
     }
 
-    const handleOpen = () => setOpen(true);
-    const handleClose = () => setOpen(false);
-
     const createEvent = () => {
         document.getElementById("walletId").click();
         document.getElementById("money").click();
