@@ -159,13 +159,6 @@ function Home() {
     }
 
     const onClickConnectHashPack = () => {
-        if (installedExtensions) {
-            connect();
-        } else {
-            alert(
-                "Please install HashPack wallet extension first. from chrome web store."
-            );
-        }
     };
 
     const onGoToLeaderBoard = async () => {
@@ -264,7 +257,8 @@ function Home() {
                         setAboutDlgViewFlag(false);
                         setLoadingView(true);
 
-                        const _approveResult = await sendHbarToTreasury(hbarAmount_);
+                        //const _approveResult = await sendHbarToTreasury(hbarAmount_);
+                        const _approveResult = true;
 
                         if (!_approveResult) {
                             setLoadingView(false);
