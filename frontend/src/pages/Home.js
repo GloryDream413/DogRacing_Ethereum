@@ -16,7 +16,6 @@ import AboutDlg from '../components/MainMenu/AboutDlg';
 import LeaderBoardDlg from "../components/LeaderBoardDlg";
 import SettingDlg from "../components/SettingDlg";
 import StatDlg from "../components/StatDlg";
-import { useHashConnect } from "../api/HashConnectAPIProvider.tsx";
 import { getRequest, postRequest } from "../api/apiRequests";
 
 import * as env from "../env";
@@ -26,7 +25,6 @@ function Home() {
     const [netType, setNetType] = useState("");
     const [open, setOpen] = React.useState(false);
     const [inputAccountId, setInputAccountId] = useState("");
-    const [walletConnectModalViewFlag, setWalletConnectModalViewFlag] = useState(false);
     const [loadingView, setLoadingView] = useState(false);
     const [toastStrInputValue, setToastStrInputValue] = useState("");
     const [treasuryInfo, setTreasuryInfo] = useState(false);
@@ -38,8 +36,6 @@ function Home() {
     const [leaderBoardDlgViewFlag, setLeaderBoardDlgViewFlag] = useState(false);
     const [settingDlgViewFlag, setSettingDlgViewFlag] = useState(false);
     const [message, setMessage] = useState ('')
-
-    const { walletData, installedExtensions, connect, disconnect, sendHbarToTreasury } = useHashConnect(netType);
     const [walletId, setWalletId] = useState(null)
 
     useEffect(() => {
@@ -57,21 +53,6 @@ function Home() {
     useEffect(() => {
         if (message.length > 0) toast.info (message);
     }, [message]);
-
-    useEffect(() => {
-        if (walletData.pairingData != null) {
-            if (walletData.pairingData.length != 0) {
-                if (walletData.pairingData.length == undefined) {
-                    setWalletId(walletData.pairingData.accountIds[0])
-                }
-                else {
-                    setWalletId(walletData.pairingData[0].accountIds[0])
-                }
-            }
-        }
-        else
-            setWalletId(null)
-    }, [walletData]);
 
     useEffect(() => {
         if (walletId != null) {
