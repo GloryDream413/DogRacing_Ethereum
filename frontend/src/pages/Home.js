@@ -11,7 +11,7 @@ import {
     Dialog,
     Modal
 } from '@mui/material';
-import HashPackConnectModal from "../components/HashPackConnectModal";
+
 import AboutDlg from '../components/MainMenu/AboutDlg';
 import LeaderBoardDlg from "../components/LeaderBoardDlg";
 import SettingDlg from "../components/SettingDlg";
@@ -391,37 +391,21 @@ function Home() {
                 <CircularProgress color="inherit" />
             </Backdrop>
             <div  hidden>
-            <button id="leaderBoard" onClick={() => onGoToLeaderBoard()} />
-            <button id="connectWallet" onClick={() => { onConnectHashpackWallet(); }} />
-            <button id="toastAlertBtn" onClick={() => { toastAlert(); }} />
-            <input id="walletId" value={inputAccountId} onChange={(e) => setInputAccountId(e.target.value)} />
-            <button id="setting" onClick={() => onGoToSetting()} />
-            <button id="deposit" value={0} onClick={onDeposit} />
-            <button id="withdraw" value={0} onClick={onWithdraw} />
-            <button id="stats" onClick={() => setStatDlgViewFlag(true)} hidden />
-            <button id="playBtn" onClick={() => playBtn()} hidden />
-            <button id="endround" onClick={onEndRound} winflag="0" earning="0" roundfee="0" />
-            <button id="startround" onClick={onStartRound} betamount={0} />
-            <input id="toastStrInput" toastflg="0" value={toastStrInputValue} onChange={(e) => setToastStrInputValue(e.target.value)} /> {/* 0: success, 1: error, 2: warning, 3: info */}
-            <input id="money" value={money} onChange={(e) => setMoney(e.target.value)} />
-            <input id="betAmount" value={0} onChange={() => console.log("start racing...")} />
-            <input id="treasury" value={treasuryInfo} onChange={(e) => setTreasuryInfo(e.target.value)} />
-            </div>
-            <div>
-                <Modal
-                    open={walletConnectModalViewFlag}
-                    onClose={() => onClickWalletConnectModalClose()}
-                    centered="true"
-                    className="hashpack-connect-modal"
-                >
-                    <HashPackConnectModal
-                        pairingString={walletData.pairingString}
-                        connectedAccount={walletId}
-                        onClickConnectHashPack={onClickConnectHashPack}
-                        onClickCopyPairingStr={onClickCopyPairingStr}
-                        onClickDisconnectHashPack={onClickDisconnectHashPack}
-                    />
-                </Modal>
+                <button id="leaderBoard" onClick={() => onGoToLeaderBoard()} />
+                <button id="connectWallet" onClick={() => { onConnectHashpackWallet(); }} />
+                <button id="toastAlertBtn" onClick={() => { toastAlert(); }} />
+                <input id="walletId" value={inputAccountId} onChange={(e) => setInputAccountId(e.target.value)} />
+                <button id="setting" onClick={() => onGoToSetting()} />
+                <button id="deposit" value={0} onClick={onDeposit} />
+                <button id="withdraw" value={0} onClick={onWithdraw} />
+                <button id="stats" onClick={() => setStatDlgViewFlag(true)} hidden />
+                <button id="playBtn" onClick={() => playBtn()} hidden />
+                <button id="endround" onClick={onEndRound} winflag="0" earning="0" roundfee="0" />
+                <button id="startround" onClick={onStartRound} betamount={0} />
+                <input id="toastStrInput" toastflg="0" value={toastStrInputValue} onChange={(e) => setToastStrInputValue(e.target.value)} /> {/* 0: success, 1: error, 2: warning, 3: info */}
+                <input id="money" value={money} onChange={(e) => setMoney(e.target.value)} />
+                <input id="betAmount" value={0} onChange={() => console.log("start racing...")} />
+                <input id="treasury" value={treasuryInfo} onChange={(e) => setTreasuryInfo(e.target.value)} />
             </div>
         </div>
     )
