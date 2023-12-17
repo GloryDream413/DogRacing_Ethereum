@@ -9,20 +9,13 @@ import {
     CircularProgress,
     Backdrop,
     Dialog,
-    Divider,
-    Typography,
-    Fade,
-    Box,
-    Modal,
-    List, ListItemButton, ListItemIcon, ListItemText, ListItemAvatar,
-    Avatar
+    Modal
 } from '@mui/material';
 import HashPackConnectModal from "../components/HashPackConnectModal";
 import AboutDlg from '../components/MainMenu/AboutDlg';
 import LeaderBoardDlg from "../components/LeaderBoardDlg";
 import SettingDlg from "../components/SettingDlg";
 import StatDlg from "../components/StatDlg";
-import BackgroundImage from "../assets/img/board.png";
 import { useHashConnect } from "../api/HashConnectAPIProvider.tsx";
 import { getRequest, postRequest } from "../api/apiRequests";
 
@@ -33,7 +26,6 @@ function Home() {
     const [netType, setNetType] = useState("");
     const [open, setOpen] = React.useState(false);
     const [inputAccountId, setInputAccountId] = useState("");
-    const [selectedIndex, setSelectedIndex] = useState(1);
     const [walletConnectModalViewFlag, setWalletConnectModalViewFlag] = useState(false);
     const [loadingView, setLoadingView] = useState(false);
     const [toastStrInputValue, setToastStrInputValue] = useState("");
@@ -232,7 +224,6 @@ function Home() {
         if (hbarAmount_ > 0) {
             setLoadingView(true);
             const _res = await postRequest(env.SERVER_URL + "/api/control/withdraw", { accountId: walletId, hbarAmount: hbarAmount_ });
-
             
             if (!_res) {
                 toast.error("Something wrong with server!");
