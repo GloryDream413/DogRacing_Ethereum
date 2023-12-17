@@ -92,9 +92,7 @@ function Home() {
 
     const getInfo = async () => {
         setLoadingView(true);
-
         const _res = await getRequest(env.SERVER_URL + "/api/control/get_info");
-        console.log(">>>>>",_res);
         if (!_res) {
             toast.error("Something wrong with server!");
             setLoadingView(false);
