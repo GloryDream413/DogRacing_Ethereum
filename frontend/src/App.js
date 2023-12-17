@@ -8,15 +8,18 @@ import "./assets/scss/now-ui-kit.scss?v=1.5.0";
 // pages
 import Home from "./pages/Home";
 
+import { WagmiConfig } from 'wagmi';
+import { config } from './wallectConfig';
+
 function App({...rest}) {
   return (
-    <>
+    <WagmiConfig config={config}>
       <BrowserRouter>
         <Switch>
           <Route path="/" render={(props) => <Home {...props} />} />
         </Switch>
       </BrowserRouter>
-    </>
+    </WagmiConfig>
   );
 }
 
