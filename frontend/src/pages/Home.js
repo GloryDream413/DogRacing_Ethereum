@@ -154,19 +154,13 @@ function Home() {
     }
 
     const onConnectHashpackWallet = () => {
-        setWalletConnectModalViewFlag(true);
         setOpen(false);
         document.getElementById("treasury").click();
-    }
-
-    const onClickWalletConnectModalClose = () => {
-        setWalletConnectModalViewFlag(false);
     }
 
     const onClickConnectHashPack = () => {
         if (installedExtensions) {
             connect();
-            setWalletConnectModalViewFlag(false);
         } else {
             alert(
                 "Please install HashPack wallet extension first. from chrome web store."
@@ -176,19 +170,6 @@ function Home() {
 
     const onGoToLeaderBoard = async () => {
         setLeaderBoardDlgViewFlag(true);
-    }
-
-    const onClickCopyPairingStr = () => {
-        navigator.clipboard.writeText(walletData.pairingString);
-    };
-
-    const onClickDisconnectHashPack = () => {
-        disconnect();
-        setInputAccountId('');
-        setWalletId ('')
-        setTimeout(createEvent, 1000);
-        setTreasuryInfo(false);
-        setWalletConnectModalViewFlag(false);
     }
 
     const onDeposit = async () => {
@@ -392,23 +373,10 @@ function Home() {
     )
 }
 
-const modalStyle = {
-    position: 'absolute',
-    top: '50%',
-    left: '50%',
-    transform: 'translate(-50%, -50%)',
-    width: 400,
-    bgcolor: 'background.paper',
-    border: '2px solid #000',
-    boxShadow: 24,
-    p: 4,
-};
-
 const dialogStyle = css`
     .MuiPaper-root {
         background: transparent;
         overflow-y: visible;
     }
 `
-
 export default Home;
