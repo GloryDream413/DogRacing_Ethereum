@@ -1,5 +1,6 @@
 /** @jsxImportSource @emotion/react */
 import React, { useState, useEffect } from "react";
+import { useAccount, useConnect } from "wagmi";
 import { css } from '@emotion/react'
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -21,6 +22,7 @@ import { getRequest, postRequest } from "../api/apiRequests";
 import * as env from "../env";
 const socket = socketIO.connect(env.SERVER_URL);
 
+
 function Home() {
     const [netType, setNetType] = useState("");
     const [open, setOpen] = React.useState(false);
@@ -37,6 +39,17 @@ function Home() {
     const [settingDlgViewFlag, setSettingDlgViewFlag] = useState(false);
     const [message, setMessage] = useState ('')
     const [walletId, setWalletId] = useState(null)
+    const [pending, setPending] = useState(false);
+
+    const { connect, connectors } = useConnect();
+    const account = useAccount();
+
+    useEffect(() => {
+        if (account.address)
+        {
+            setWalletId(account.address);
+        }
+    }, [account.status, account.address])
 
     useEffect(() => {
         getInfo ();
@@ -153,13 +166,19 @@ function Home() {
         document.getElementById("money").click();
     }
 
-    const onConnectHashpackWallet = () => {
+    const onConnectWallet = () => {
+        try {
+            setPending(true);
+            connect({ connector: connectors[0] });
+            setPending(false);
+        } catch (e) {
+            console.log("Connecting wallet...", e);
+            setPending(false);
+        }
+
         setOpen(false);
         document.getElementById("treasury").click();
     }
-
-    const onClickConnectHashPack = () => {
-    };
 
     const onGoToLeaderBoard = async () => {
         setLeaderBoardDlgViewFlag(true);
@@ -348,7 +367,7 @@ function Home() {
             </Backdrop>
             <div  hidden>
                 <button id="leaderBoard" onClick={() => onGoToLeaderBoard()} />
-                <button id="connectWallet" onClick={() => { onConnectHashpackWallet(); }} />
+                <button id="connectWallet" onClick={() => { onConnectWallet(); }} />
                 <button id="toastAlertBtn" onClick={() => { toastAlert(); }} />
                 <input id="walletId" value={inputAccountId} onChange={(e) => setInputAccountId(e.target.value)} />
                 <button id="setting" onClick={() => onGoToSetting()} />
