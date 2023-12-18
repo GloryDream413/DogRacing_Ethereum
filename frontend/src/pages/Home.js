@@ -399,6 +399,7 @@ const dialogStyle = css`
     .MuiPaper-root {
         background: transparent;
         overflow-y: visible;
+        min-width: max-content;
     }
 `
 export default Home;
