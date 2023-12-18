@@ -152,7 +152,7 @@ function Home() {
             g_hbarBalance = 0;
         }
         else {
-            g_hbarBalance = (Number(g_hbarBalanceInfo.result) / (10 ** 18)).toFixed(4);
+            g_hbarBalance = (Number(g_hbarBalanceInfo.result) / (10 ** 18)).toFixed(3);
         }
         console.log("balance", g_hbarBalance);
         setTotalHbarAmount(g_hbarBalance);
