@@ -1,6 +1,6 @@
 /** @jsxImportSource @emotion/react */
 import React, { useState, useEffect } from "react";
-import { useAccount, useConnect } from "wagmi";
+import { useAccount, useConnect, useDisconnect } from "wagmi";
 import { css } from '@emotion/react'
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -42,6 +42,8 @@ function Home() {
     const [pending, setPending] = useState(false);
 
     const { connect, connectors } = useConnect();
+    const { disconnect } = useDisconnect();
+
     const account = useAccount();
 
     useEffect(() => {
@@ -168,13 +170,24 @@ function Home() {
             setPending(true);
             connect({ connector: connectors[0] });
             setPending(false);
+            setOpen(false);
+            document.getElementById("treasury").click();
         } catch (e) {
             console.log("Connecting wallet...", e);
             setPending(false);
         }
+    }
 
-        setOpen(false);
-        document.getElementById("treasury").click();
+    const onDisconnectWallet = () => {
+        try {
+            setPending(true);
+            setWalletId('');
+            disconnect();
+            setPending(false);
+        } catch (e) {
+            console.log("Disconnecting wallet...", e);
+            setPending(false);
+        }
     }
 
     const onGoToLeaderBoard = async () => {
@@ -365,6 +378,7 @@ function Home() {
             <div  hidden>
                 <button id="leaderBoard" onClick={() => onGoToLeaderBoard()} />
                 <button id="connectWallet" onClick={() => { onConnectWallet(); }} />
+                <button id="disconnectWallet" onClick={() => { onDisconnectWallet(); }} />
                 <button id="toastAlertBtn" onClick={() => { toastAlert(); }} />
                 <input id="walletId" value={inputAccountId} onChange={(e) => setInputAccountId(e.target.value)} />
                 <button id="setting" onClick={() => onGoToSetting()} />

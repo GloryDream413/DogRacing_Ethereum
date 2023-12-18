@@ -33,12 +33,9 @@ function CMenu() {
                 walletConnectBtn.changeText("  " + e.target.value + "  "  + "\n  Disconnect" + "  ");
         })
 
-        $("#disconnectWallet").click((e) => {
-            walletConnectBtn.changeText("  " + TEXT_CONNECT_WALLET + "  ");
-        })
-
         oSpriteConnect = s_oSpriteLibrary.getSprite('but_bg');
         _pStartPosWalletConnect = {x:CANVAS_WIDTH - oSpriteConnect.width/2 - 10,y:(oSpriteConnect.height / 2) + 10};
+        
         if ($("#walletId").val() == "") {
             accountId = '';
             walletConnectBtn = new CTextButton(_pStartPosWalletConnect.x, _pStartPosWalletConnect.y, oSpriteConnect, "  " + TEXT_CONNECT_WALLET + "  ", FONT_GAME_1, "#ffffff", 25, s_oStage);
@@ -46,6 +43,7 @@ function CMenu() {
             accountId = $("#walletId").val();
             walletConnectBtn = new CTextButton(_pStartPosWalletConnect.x, _pStartPosWalletConnect.y, oSpriteConnect, "  " + accountId + "  "  + "\n  Disconnect" + "  ", FONT_GAME_1, "#ffffff", 25, s_oStage);
         }
+
         walletConnectBtn.addEventListener(ON_MOUSE_UP, this._onConnectWallet, this);
 
         var oSpriteSetting = s_oSpriteLibrary.getSprite('but_setting');
@@ -128,8 +126,15 @@ function CMenu() {
     };
 
     this._onConnectWallet = function () {
-        accountId = '';
-        document.getElementById("connectWallet").click();
+        if($("#walletId").val() === "")
+        {
+            accountId = '';
+            document.getElementById("connectWallet").click();
+        }
+        else
+        {
+            document.getElementById("disconnectWallet").click();
+        }
     }
 
     this.unload = function () {
