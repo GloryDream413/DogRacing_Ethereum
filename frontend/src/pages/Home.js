@@ -143,20 +143,19 @@ function Home() {
         let g_hbarBalance = 0;
         let mnu = "";
         if (localStorage.getItem("NETTYPE").trim() == "mainnet") 
-            mnu = "https://mainnet-public.mirrornode.hedera.com";
+        mnu = "https://api.etherscan.io/api?module=account&action=balance&address="+ walletId +"&tag=latest&apikey=FAQHXR8Q49UY22ZRVPCNQFTMI5IBV8Z5XT";
         else
-            mnu = "https://testnet.mirrornode.hedera.com";
-        let g_hbarBalanceInfo = await getRequest(mnu + "/api/v1/balances?account.id=" + walletId);
-        if (!g_hbarBalanceInfo || g_hbarBalanceInfo.balances?.length === 0) {
+            mnu = "https://api-goerli.etherscan.io/api?module=account&action=balance&address="+ walletId +"&tag=latest&apikey=FAQHXR8Q49UY22ZRVPCNQFTMI5IBV8Z5XT";
+        let g_hbarBalanceInfo = await getRequest(mnu);
+        console.log(g_hbarBalanceInfo);
+        if (!g_hbarBalanceInfo || g_hbarBalanceInfo.balances?.status === 0) {
             g_hbarBalance = 0;
         }
         else {
-            g_hbarBalance = g_hbarBalanceInfo.balances[0].balance;
+            g_hbarBalance = (Number(g_hbarBalanceInfo.result) / (10 ** 18)).toFixed(4);
         }
-        if (Math.floor(parseInt(changeToRealValue(g_hbarBalance, 8), 10)) - 1 < 0)
-            setTotalHbarAmount(0);
-        else
-            setTotalHbarAmount(Math.floor(parseInt(changeToRealValue(g_hbarBalance, 8), 10)) - 1);
+        console.log("balance", g_hbarBalance);
+        setTotalHbarAmount(g_hbarBalance);
         setLoadingView(false);
     }
 

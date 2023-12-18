@@ -52,15 +52,7 @@ function AboutDlg({
     onDeposit,
     onCancel
 }) {
-    // const [hbarAmount, setHbarAmount] = useState(totalHbarAmount);
-    // const [hbarValueText, setHbarValueText] = useState();
-
-    // const handleSliderChange = (e) => {
-    //     setHbarAmount(e.target.value);
-    // }
-
     const [value, setValue] = useState(totalHbarAmount);
-
     const onClickDepositBtn = () => {
         if (value < 1 || value > totalHbarAmount){
             toast.error ("Please enter a number from 1 to " + totalHbarAmount + ".");
@@ -94,18 +86,6 @@ function AboutDlg({
                     fontSize: 16
                 }}>Please choose an amount to deposit.</p>
                 <Box sx={{ width: 250, marginTop: '20px'}}>
-                    {/* <Typography id="non-linear-slider" gutterBottom  color="#1976d2" sx={{fontWeight: 800 }}>
-                        {value} ℏ
-                    </Typography>
-                    <Slider
-                        value={value}
-                        min={1}
-                        step={1}
-                        max={totalHbarAmount}
-                        onChange={handleChange}
-                        valueLabelDisplay="auto"
-                        aria-labelledby="non-linear-slider"
-                    /> */}
                     <div className=''>
                         <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Amount To Deposit(ℏ):</label>
                         <input 
