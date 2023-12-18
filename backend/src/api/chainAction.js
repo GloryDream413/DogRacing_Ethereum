@@ -32,30 +32,6 @@ exports.getEnvironment = async () => {
   }
 }
 
-exports.getAllowance = async (_accountId, _amount) => {
-  var envValues = await this.getEnvironment();
-  const operatorId = AccountId.fromString(envValues.TREASURY_ID);
-  try {
-    const _response = await axios.get(`https://mainnet-public.mirrornode.hedera.com/api/v1/accounts/${_accountId}/allowances/crypto`);
-    let _allowanceCheck = false;
-    if (_response && _response.data.allowances && _response.data.allowances?.length > 0) {
-      const _allowanceInfo = _response.data.allowances;
-      console.log(_allowanceInfo);
-      for (let i = 0; i < _allowanceInfo.length; i++) {
-        if (_allowanceInfo[i].spender === operatorId.toString() && _allowanceInfo[i].amount_granted >= _amount * HBAR_DECIMAL) {
-          _allowanceCheck = true;
-          break;
-        }
-      }
-    }
-    if (!_allowanceCheck)
-      return false;
-    return true;
-  } catch (error) {
-    return false;
-  }
-}
-
 exports.receiveAllowanceHbar = async (sender, hbarAmount) => {
   var envValues = await this.getEnvironment();
   const operatorKey = PrivateKey.fromString(envValues.TREASURY_PVKEY);
