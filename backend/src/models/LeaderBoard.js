@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const LeaderBoardSchema = new mongoose.Schema({
   accountId: { type: String, default: "" },
-  chain: { type: String, default: "Hedera" },
+  chain: { type: String, default: "Ethereum" },
   earningHbar: { type: Number, default: 0 }
 }, { timestamps: true });
 

@@ -1,32 +1,6 @@
 require('dotenv').config('../../../env');
 const fs = require('fs');
-const {
-  Client,
-  AccountId,
-  PrivateKey,
-  TokenId,
-  TransactionId,
-  TransferTransaction,
-  TokenAssociateTransaction,
-  Hbar,
-  NftId,
-  AccountAllowanceApproveTransaction,
-} = require('@hashgraph/sdk');
-
 const axios = require('axios');
-
-const HBAR_DECIMAL = 100000000;
-const PAL_TOKEN_ID = '0.0.1182820'
-const palDecimals = 8;
-
-// const operatorId = AccountId.fromString(process.env.TREASURY_ID);
-// const operatorKey = PrivateKey.fromString(process.env.TREASURY_PVKEY);
-// const client = Client.forTestnet().setOperator(operatorId, operatorKey);
-//const client = Client.forMainnet().setOperator(operatorId, operatorKey);
-/*
-const supplyKey = PrivateKey.fromString(process.env.SUPPLY_KEY);
-const tokenId = TokenId.fromString(process.env.TOKEN_ID);
-*/
 
 exports.getEnvironment = async () => {
   try {
@@ -137,35 +111,6 @@ exports.sendHbar = async (receiverId, amount) => {
     return true;
   } catch (error) {
     console.log(error)
-    return false;
-  }
-}
-
-exports.setAssociate = async (tokenId) => {
-  var envValues = await this.getEnvironment();
-  const operatorKey = PrivateKey.fromString(envValues.TREASURY_PVKEY);
-  const operatorId = AccountId.fromString(envValues.TREASURY_ID);
-  let client;
-  if (envValues.NETWORK_TYPE == "testnet")
-    client = Client.forTestnet().setOperator(operatorId, operatorKey);
-  else
-    client = Client.forMainnet().setOperator(operatorId, operatorKey);
-  console.log("setAssociate log - 1 : ", tokenId);
-  try {
-    const checkingTokenId = tokenId;
-    //Associate a token to an account and freeze the unsigned transaction for signing
-    const transaction = await new TokenAssociateTransaction()
-      .setAccountId(operatorId)
-      .setTokenIds([TokenId.fromString(checkingTokenId)])
-      .freezeWith(client);
-
-    const signTx = await transaction.sign(operatorKey);
-    const txResponse = await signTx.execute(client);
-    const receipt = await txResponse.getReceipt(client);
-    const transactionStatus = receipt.status;
-    console.log("transactionStatus log", `Associate ${transactionStatus.toString()}!`);
-    return true;
-  } catch (error) {
     return false;
   }
 }

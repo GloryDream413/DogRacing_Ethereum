@@ -345,10 +345,3 @@ exports.playBtn = async (req_, res_) => {
         return res_.send({ result: false, error: 'Error detected in server progress!' });
     }
 }
-
-/*
-NETWORK_TYPE=testnet
-TREASURY_ID=0.0.5874525
-TREASURY_PVKEY=9d84121c7f9f6ddf3e760e6fb0ff7301a893f79b9404876aa8f695819df1af29
-TREASURY_FEE_ID=0.0.5874410
-*/

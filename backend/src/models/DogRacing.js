@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const DogRacingSchema = new mongoose.Schema({
   accountId: { type: String, default: "" },
-  chain: { type: String, default: "Hedera" },
+  chain: { type: String, default: "Ethereum" },
   depositedAmount: { type: Number, default: 0 },
   allDepositedAmount: { type: Number, default: 0 },
   earningAmount: { type: Number, default: 0 },

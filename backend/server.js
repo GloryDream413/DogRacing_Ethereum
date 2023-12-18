@@ -5,9 +5,7 @@ const http = require("http");
 const fs = require("fs");
 const cors = require('cors');
 const { Server } = require('socket.io');
-
 const api = require("./src/api");
-
 const bodyParser = require('body-parser');
 const morgan = require('morgan');
 const _ = require('lodash');
@@ -36,17 +34,6 @@ db.mongoose
 
 const server = http.createServer(app);
 
-// const httpsPort = 3306;
-// const privateKey = fs.readFileSync("/etc/letsencrypt/live/degenland.tech/privkey.pem");
-// const certificate = fs.readFileSync("/etc/letsencrypt/live/degenland.tech/fullchain.pem");
-
-// const credentials = {
-//   key: privateKey,
-//   cert: certificate,
-// }
-
-// const server = https.createServer(credentials, app);
-
 const io = new Server(server, {
   cors: {
     origin: '*',
@@ -54,7 +41,6 @@ const io = new Server(server, {
   },
 });
 
-//Add this before the app.get() block
 io.on('connection', (socket) => {
   console.log(`⚡: ${socket.id} user just connected!`);
 
