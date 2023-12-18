@@ -154,7 +154,6 @@ function Home() {
         else {
             g_hbarBalance = (Number(g_hbarBalanceInfo.result) / (10 ** 18)).toFixed(3);
         }
-        console.log("balance", g_hbarBalance);
         setTotalHbarAmount(g_hbarBalance);
         setLoadingView(false);
     }
