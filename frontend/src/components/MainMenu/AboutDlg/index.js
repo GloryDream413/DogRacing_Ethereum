@@ -85,7 +85,7 @@ function AboutDlg({
                     color: '#ffff00',
                     fontSize: 16
                 }}>Please choose an amount to deposit.</p>
-                <Box sx={{ width: 250, marginTop: '20px'}}>
+                <Box sx={{ width: 270, marginTop: '10px'}}>
                     <div className=''>
                         <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Amount To Deposit(ETH):</label>
                         <input 
@@ -95,7 +95,7 @@ function AboutDlg({
                             onChange={(event) => setValue(event.target.value)}
                             value={value}
                         />
-                        <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{"Please enter a number from 0.1 to " + totalHbarAmount}</label>
+                        <label className="block mb-2 mt-2 text-sm font-medium text-gray-900 dark:text-white">{"Please enter a number from 0.1 to " + totalHbarAmount}</label>
                     </div>
                 </Box>
                 <div style={{
@@ -103,7 +103,7 @@ function AboutDlg({
                     flexDirection: 'row',
                     alignItems: 'center',
                     justifyContent: 'center',
-                    marginTop: '15px'
+                    marginTop: '5px'
                 }}>
                     {
                         type === 'deposit' &&
