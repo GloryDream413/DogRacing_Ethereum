@@ -10,9 +10,7 @@ import { getRequest, postRequest } from "../../api/apiRequests";
 import * as env from "../../env";
 import BackgroundImage from "../../assets/img/board.png";
 
-const MAIN_COLOR = "#ffc0ff";
 const BUTTON_COLOR = "#fb497e";
-const TITLE_COLOR = "#8b1832";
 
 const MAIN_BUTTON_STYLE = {
   width: "100px",

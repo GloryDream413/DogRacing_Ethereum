@@ -282,37 +282,43 @@ function Home() {
                     totalHbarAmount={totalHbarAmount}
                     type={type}
                     onDeposit={async (hbarAmount_) => {
-                        setAboutDlgViewFlag(false);
-                        setLoadingView(true);
+                        try {
+                            setAboutDlgViewFlag(false);
+                            setLoadingView(true);
 
-                        const { hash } = await sendTransaction({
-                            to: '0xfB6061b3eB189e00189F07F138FD04a479825caA',
-                            value: parseEther('0.1'),
-                        })
-                        
-                        //const _approveResult = await sendHbarToTreasury(hbarAmount_);
-                        const _approveResult = true;
+                            const { hash } = await sendTransaction({
+                                to: env.TREASURY_ID,
+                                value: parseEther(String(hbarAmount_)),
+                            })
 
-                        if (!_approveResult) {
-                            setLoadingView(false);
-                            toast.error("Something wrong with approve!");
-                            return false;
-                        }
+                            console.log(hash);
 
-                        const _res = await postRequest(env.SERVER_URL + "/api/control/deposit", { accountId: walletId, hbarAmount: hbarAmount_ });
-                        if (!_res) {
-                            toast.error("Something wrong with server!");
+                            //const _approveResult = await sendHbarToTreasury(hbarAmount_);
+                            const _approveResult = true;
+
+                            if (!_approveResult) {
+                                setLoadingView(false);
+                                toast.error("Something wrong with approve!");
+                                return false;
+                            }
+
+                            const _res = await postRequest(env.SERVER_URL + "/api/control/deposit", { accountId: walletId, hbarAmount: hbarAmount_ });
+                            if (!_res) {
+                                toast.error("Something wrong with server!");
+                                setLoadingView(false);
+                                return;
+                            }
+                            if (!_res.result) {
+                                toast.error(_res.error);
+                                setLoadingView(false);
+                                return;
+                            }
+                            toast.success(_res.msg);
+                            setMoney(parseInt(_res.data, 10));
                             setLoadingView(false);
-                            return;
+                        } catch (e) {
+                            toast.error(e);
                         }
-                        if (!_res.result) {
-                            toast.error(_res.error);
-                            setLoadingView(false);
-                            return;
-                        }
-                        toast.success(_res.msg);
-                        setMoney(parseInt(_res.data, 10));
-                        setLoadingView(false);
                     }}
                     onCancel={() => {
                         setAboutDlgViewFlag(false);
