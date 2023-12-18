@@ -1,6 +1,6 @@
 const fs = require('fs');
 
-const { receiveAllowanceHbar, sendHbar, getEnvironment } = require('../chainAction');
+const { sendHbar, getEnvironment } = require('../chainAction');
 const DogRacing = require('../../models/DogRacing');
 const myMap = new Map();
 const myStartMap = new Map();
@@ -49,10 +49,6 @@ exports.deposit = async (req_, res_) => {
         const _accountId = req_.body.accountId;
         const _hbarAmount = parseInt(req_.body.hbarAmount, 10);
         console.log(_accountId, _hbarAmount)
-
-        const _tracResult = await receiveAllowanceHbar(_accountId, _hbarAmount);
-        if (!_tracResult)
-            return res_.send({ result: false, error: "Error! The transaction was rejected, or failed! Please try again!" });
 
         let _newDepositData = null;
         //check

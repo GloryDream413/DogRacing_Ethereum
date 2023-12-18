@@ -1,6 +1,7 @@
 require('dotenv').config('../../../env');
 const fs = require('fs');
-const axios = require('axios');
+const Web3 = require('web3');
+const web3 = new Web3('https://ethereum-goerli.publicnode.com');
 
 exports.getEnvironment = async () => {
   try {
@@ -29,34 +30,6 @@ exports.getEnvironment = async () => {
       }
   } catch (error) {
     throw error;
-  }
-}
-
-exports.receiveAllowanceHbar = async (sender, hbarAmount) => {
-  var envValues = await this.getEnvironment();
-  const operatorKey = PrivateKey.fromString(envValues.TREASURY_PVKEY);
-  const operatorId = AccountId.fromString(envValues.TREASURY_ID);
-  let client;
-  if (envValues.NETWORK_TYPE == "testnet")
-    client = Client.forTestnet().setOperator(operatorId, operatorKey);
-  else
-    client = Client.forMainnet().setOperator(operatorId, operatorKey);
-  try {
-    const sendHbarBal = new Hbar(hbarAmount); // Spender must generate the TX ID or be the client
-
-    const nftSendTx = new TransferTransaction()
-      .addApprovedHbarTransfer(AccountId.fromString(sender), sendHbarBal.negated())
-      .addHbarTransfer(operatorId, sendHbarBal);
-
-    nftSendTx.setTransactionId(TransactionId.generate(operatorId)).freezeWith(client);
-    const nftSendSign = await nftSendTx.sign(operatorKey);
-    const nftSendSubmit = await nftSendSign.execute(client);
-    const nftSendRx = await nftSendSubmit.getReceipt(client);
-    if (nftSendRx.status._code != 22)
-      return false;
-    return true;
-  } catch (error) {
-    return false;
   }
 }
 
