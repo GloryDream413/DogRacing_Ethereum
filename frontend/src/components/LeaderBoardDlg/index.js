@@ -88,7 +88,7 @@ function LeaderBoardDlg({ onOK }) {
             height: "57%",
             overflowY: "auto",
             alignItems: "start",
-            width: "300px",
+            width: "600px",
           }}
         >
           <table className="table-auto border-spacing-x-5 border-spacing-y-2  ">
@@ -96,7 +96,6 @@ function LeaderBoardDlg({ onOK }) {
               <tr className=" ">
                 <th className="text-center p-3 md:p-3">No</th>
                 <th className="text-center p-3 md:p-3">Player</th>
-                {/* <th className="text-center p-3 md:p-3">Chain</th> */}
                 <th className="text-center p-3 md:p-3">Earning</th>
               </tr>
             </thead>
