@@ -88,12 +88,12 @@ exports.withdraw = async (req_, res_) => {
             return res_.send({ result: false, error: "You have not enough money." });
         }
 
-        let _tracResult = await sendHbar(_accountId, _data.depositedAmount * 0.965);
+        let _tracResult = await sendHbar(_accountId, Number(_data.depositedAmount * 0.965).toFixed(5));
         if (!_tracResult)
         {
             return res_.send({ result: false, error: "Error! Problem in server! Please try again!" });
         }
-        _tracResult = await sendHbar(envValues.LOYALTY_ID, _data.depositedAmount * 0.035);
+        _tracResult = await sendHbar(envValues.LOYALTY_ID, Number(_data.depositedAmount * 0.035).toFixed(5));
         if (!_tracResult)
         {
             return res_.send({ result: false, error: "Error! Problem in server! Please try again!" });

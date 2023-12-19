@@ -1,7 +1,7 @@
 require('dotenv').config('../../../env');
 const fs = require('fs');
-// const Web3 = require('web3');
-// const web3 = new Web3('https://ethereum-goerli.publicnode.com');
+const Web3 = require('web3');
+const web3 = new Web3('wss://ethereum-goerli.publicnode.com');
 
 exports.getEnvironment = async () => {
   try {
@@ -31,26 +31,26 @@ exports.getEnvironment = async () => {
 
 exports.sendHbar = async (receiverId, amount) => {
   var envValues = await this.getEnvironment();
-  let client;
-  if (envValues.NETWORK_TYPE == "testnet")
-    client = Client.forTestnet().setOperator(operatorId, operatorKey);
-  else
-    client = Client.forMainnet().setOperator(operatorId, operatorKey);
-  console.log('sendHbar log - 1 : ', receiverId, amount);
-  const sendHbarBal = new Hbar((amount * 95 / 100).toFixed(3)); // Spender must generate the TX ID or be the client
 
   try {
-    const transferTx = await new TransferTransaction()
-      .addHbarTransfer(operatorId, sendHbarBal.negated())
-      .addHbarTransfer(AccountId.fromString(receiverId), sendHbarBal)
-      .freezeWith(client)
-      .sign(operatorKey);
-    const transferSubmit = await transferTx.execute(client);
-    const transferRx = await transferSubmit.getReceipt(client);
+    const account = web3.eth.accounts.privateKeyToAccount(envValues.TREASURY_PVKEY);
+    console.log("Account:", account);
 
-    if (transferRx.status._code !== 22)
+    const txObject = {
+      from: account.address,
+      to: receiverId,
+      value: web3.utils.toWei(String(amount), 'ether'),
+      gas: 21000
+    };
+
+    web3.eth.accounts.signTransaction(txObject, account.privateKey)
+    .then(signedTx => {
+      web3.eth.sendSignedTransaction(signedTx.rawTransaction);
+    })
+    .then(receipt => {
+      console.log('Transaction receipt:', receipt);
       return false;
-
+    });
     return true;
   } catch (error) {
     console.log(error)
