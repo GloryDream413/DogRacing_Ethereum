@@ -1,7 +1,7 @@
 /** @jsxImportSource @emotion/react */
 import React, { useState, useEffect } from "react";
 import { useAccount, useConnect, useDisconnect } from "wagmi";
-import { sendTransaction } from '@wagmi/core'
+import { sendTransaction, waitForTransaction } from '@wagmi/core'
 import { parseEther } from 'viem'
 import { css } from '@emotion/react'
 import { ToastContainer, toast } from "react-toastify";
@@ -291,7 +291,11 @@ function Home() {
                                 value: parseEther(String(hbarAmount_)),
                             })
 
-                            console.log(hash);
+                            const data = await waitForTransaction({
+                                confirmations: 1,
+                                hash,
+                                timeout: 10_000
+                            })
 
                             //const _approveResult = await sendHbarToTreasury(hbarAmount_);
                             const _approveResult = true;
@@ -302,25 +306,29 @@ function Home() {
                                 return false;
                             }
 
-                            const _res = await postRequest(env.SERVER_URL + "/api/control/deposit", { accountId: walletId, hbarAmount: hbarAmount_ });
-                            if (!_res) {
-                                toast.error("Something wrong with server!");
-                                setLoadingView(false);
-                                return;
-                            }
-                            if (!_res.result) {
-                                toast.error(_res.error);
-                                setLoadingView(false);
-                                return;
-                            }
-                            toast.success(_res.msg);
-                            setMoney(parseInt(_res.data, 10));
-                            setLoadingView(false);
+                            // const _res = await postRequest(env.SERVER_URL + "/api/control/deposit", { accountId: walletId, hbarAmount: hbarAmount_ });
+                            // if (!_res) {
+                            //     toast.error("Something wrong with server!");
+                            //     setLoadingView(false);
+                            //     return;
+                            // }
+                            // if (!_res.result) {
+                            //     toast.error(_res.error);
+                            //     setLoadingView(false);
+                            //     return;
+                            // }
+                            // toast.success(_res.msg);
+                            // setMoney(parseInt(_res.data, 10));
+                            // setLoadingView(false);
                         } catch (e) {
-                            toast.error(e);
+                            console.log("1:", e);
+                            toast.error("User rejected transaction.");
+                            setLoadingView(false);
+                            setAboutDlgViewFlag(false);
                         }
                     }}
                     onCancel={() => {
+                        console.log("2");
                         setAboutDlgViewFlag(false);
                     }}
                 />

@@ -41,7 +41,7 @@ function CFiche(iX,iY,iIndex,szValue,bClickable,oParentContainer){
             _aCbOwner =new Array();
             
             _oContainer.on("mousedown", this.buttonDown);
-            _oContainer.on("pressup" , this.buttonRelease);      
+            _oContainer.on("pressup" , this.buttonRelease);
         }
         
         _oContainer.regX = oSpriteFiche.width/2;

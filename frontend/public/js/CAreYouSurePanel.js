@@ -21,8 +21,6 @@ function CAreYouSurePanel(oParentContainer){
                     TEXT_ARE_YOU_SURE,
                     true, true, true,
                     false );
-                    
-
         
         _oButYes = new CGfxButton(CANVAS_WIDTH/2 + 170,460,s_oSpriteLibrary.getSprite("but_yes"),_oContainer);
         _oButYes.addEventListener(ON_MOUSE_UP,this._onReleaseYes,this);
