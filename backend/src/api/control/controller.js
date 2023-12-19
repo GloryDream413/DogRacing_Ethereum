@@ -82,8 +82,6 @@ exports.withdraw = async (req_, res_) => {
         if (!req_.body.accountId)
             return res_.send({ result: false, error: 'failed' });
         const _accountId = req_.body.accountId;
-        console.log("Account id:", _accountId);
-
         const _data = await DogRacing.findOne({ accountId: _accountId });
         if(_data.depositedAmount <= 0)
         {
@@ -111,6 +109,7 @@ exports.withdraw = async (req_, res_) => {
 
         return res_.send({ result: true, msg: "Withdraw success!" });
     } catch (error) {
+        console.log("error:", error);
         return res_.send({ result: false, error: 'Error detected in server progress!' });
     }
 }

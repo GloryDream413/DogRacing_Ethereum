@@ -6,9 +6,7 @@ const fs = require('fs');
 exports.getEnvironment = async () => {
   try {
       let inputD = await fs.promises.readFile('.env', 'utf8');
-
       if (inputD == undefined || inputD == null) return {};
-      let nettype = "";
       let tid = "";
       let pvkey = "";
       let lid = "";
@@ -16,14 +14,12 @@ exports.getEnvironment = async () => {
       var pams = content.split("\n");
       for (pam of pams) {
         var t = pam.split("=")
-        if (t[0].trim() == "NETWORK_TYPE") nettype = t[1].trim();
         if (t[0].trim() == "TREASURY_ID") tid = t[1].trim();
         if (t[0].trim() == "TREASURY_PVKEY") pvkey = t[1].trim();
         if (t[0].trim() == "LOYALTY_ID") lid = t[1].trim();
       }
 
       return {
-        NETWORK_TYPE: nettype,
         TREASURY_ID: tid,
         TREASURY_PVKEY: pvkey,
         LOYALTY_ID: lid
@@ -35,8 +31,6 @@ exports.getEnvironment = async () => {
 
 exports.sendHbar = async (receiverId, amount) => {
   var envValues = await this.getEnvironment();
-  const operatorKey = PrivateKey.fromString(envValues.TREASURY_PVKEY);
-  const operatorId = AccountId.fromString(envValues.TREASURY_ID);
   let client;
   if (envValues.NETWORK_TYPE == "testnet")
     client = Client.forTestnet().setOperator(operatorId, operatorKey);
