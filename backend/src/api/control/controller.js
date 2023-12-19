@@ -2,8 +2,6 @@ const fs = require('fs');
 
 const { sendHbar, getEnvironment } = require('../chainAction');
 const DogRacing = require('../../models/DogRacing');
-const myMap = new Map();
-const myStartMap = new Map();
 
 exports.getInfo = async (req_, res_) => {
     try {
@@ -84,45 +82,22 @@ exports.withdraw = async (req_, res_) => {
         if (!req_.body.accountId)
             return res_.send({ result: false, error: 'failed' });
         const _accountId = req_.body.accountId;
-
-        if(myMap.has(_accountId))
-        {
-            return res_.send({ result: false, error: 'You already running this game.' });
-        }
-
-        if(!myMap.has(_accountId))
-        {
-            myMap.set(_accountId, 1);
-        }
-        else
-        {
-            if(myMap.get(_accountId) == 1)
-            {
-                return res_.send({ result: false, error: 'You already running this game.' });
-            }
-            else
-            {
-                myMap.set(_accountId, 1);
-            }
-        }
+        console.log("Account id:", _accountId);
 
         const _data = await DogRacing.findOne({ accountId: _accountId });
         if(_data.depositedAmount <= 0)
         {
-            myMap.set(_accountId, 0);
             return res_.send({ result: false, error: "You have not enough money." });
         }
 
         let _tracResult = await sendHbar(_accountId, _data.depositedAmount * 0.965);
         if (!_tracResult)
         {
-            myMap.set(_accountId, 0);
             return res_.send({ result: false, error: "Error! Problem in server! Please try again!" });
         }
         _tracResult = await sendHbar(envValues.LOYALTY_ID, _data.depositedAmount * 0.035);
         if (!_tracResult)
         {
-            myMap.set(_accountId, 0);
             return res_.send({ result: false, error: "Error! Problem in server! Please try again!" });
         }
 
@@ -134,10 +109,8 @@ exports.withdraw = async (req_, res_) => {
             }
         );
 
-        myMap.set(_accountId, 0);
         return res_.send({ result: true, msg: "Withdraw success!" });
     } catch (error) {
-        myMap.set(_accountId, 0);
         return res_.send({ result: false, error: 'Error detected in server progress!' });
     }
 }
@@ -147,20 +120,10 @@ exports.calculateAmount = async (req_, res_) => {
     try {
         if (!req_.body.accountId)
         {
-            myStartMap.set(req_.body.accountId, 0);
             return res_.send({ result: false, error: 'failed' });
         }
 
         const _accountId = req_.body.accountId;
-        if(!myStartMap.has(_accountId))
-        {
-            myStartMap.set(_accountId, 0);
-        }
-        else
-        {
-            myStartMap.set(_accountId, 0);
-        }
-
         const _hbarAmount = req_.body.hbarAmount;
         const _winflag = req_.body.winflag;
         const _earning = parseFloat(req_.body.earning);
@@ -201,12 +164,10 @@ exports.calculateAmount = async (req_, res_) => {
             );
         }
 
-        myStartMap.set(_accountId, 0);
         await sendHbar(envValues.LOYALTY_ID, _roundfee);
         return res_.send({ result: true, msg: "success!" });
     } catch (error) {
         console.log(error)
-        myStartMap.set(req_.body.accountId, 0);
         return res_.send({ result: false, error: 'Error detected in server progress!' });
     }
 }
@@ -297,19 +258,9 @@ exports.updateDeviceNumber = async (req_, res_) => {
 exports.exitBtn = async (req_, res_) => {
     try {
         const _accountId = req_.body.accountId;
-
-        if(!myStartMap.has(_accountId))
-        {
-            myStartMap.set(_accountId, 0);
-        }
-        else
-        {
-            myStartMap.set(_accountId, 0);
-        }
         return res_.send({ result: true, msg: "success!" });
     } catch (error) {
         console.log(error)
-        myStartMap.set(_accountId, 0);
         return res_.send({ result: false, error: 'Error detected in server progress!' });
     }
 }
@@ -317,27 +268,9 @@ exports.exitBtn = async (req_, res_) => {
 
 exports.playBtn = async (req_, res_) => {
     try {
-        const _accountId = req_.body.accountId;
-
-        if(!myStartMap.has(_accountId))
-        {
-            myStartMap.set(_accountId, 1);
-        }
-        else
-        {
-            if(myStartMap.get(_accountId) == 1)
-            {
-                return res_.send({ result: false, error: 'You already running this game.' });
-            }
-            else
-            {
-                myStartMap.set(_accountId, 1);
-            }
-        }
         return res_.send({ result: true, msg: "success!" });
     } catch (error) {
         console.log(error)
-        myStartMap.set(_accountId, 0);
         return res_.send({ result: false, error: 'Error detected in server progress!' });
     }
 }
