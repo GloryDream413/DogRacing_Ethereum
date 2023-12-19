@@ -291,44 +291,27 @@ function Home() {
                                 value: parseEther(String(hbarAmount_)),
                             })
 
-                            const data = await waitForTransaction({
-                                confirmations: 1,
-                                hash,
-                                timeout: 10_000
-                            })
-
-                            //const _approveResult = await sendHbarToTreasury(hbarAmount_);
-                            const _approveResult = true;
-
-                            if (!_approveResult) {
+                            const _res = await postRequest(env.SERVER_URL + "/api/control/deposit", { accountId: walletId, hbarAmount: hbarAmount_ });
+                            if (!_res) {
+                                toast.error("Something wrong with server!");
                                 setLoadingView(false);
-                                toast.error("Something wrong with approve!");
-                                return false;
+                                return;
                             }
-
-                            // const _res = await postRequest(env.SERVER_URL + "/api/control/deposit", { accountId: walletId, hbarAmount: hbarAmount_ });
-                            // if (!_res) {
-                            //     toast.error("Something wrong with server!");
-                            //     setLoadingView(false);
-                            //     return;
-                            // }
-                            // if (!_res.result) {
-                            //     toast.error(_res.error);
-                            //     setLoadingView(false);
-                            //     return;
-                            // }
-                            // toast.success(_res.msg);
-                            // setMoney(parseInt(_res.data, 10));
-                            // setLoadingView(false);
+                            if (!_res.result) {
+                                toast.error(_res.error);
+                                setLoadingView(false);
+                                return;
+                            }
+                            toast.success(_res.msg);
+                            setMoney(_res.data);
+                            setLoadingView(false);
                         } catch (e) {
-                            console.log("1:", e);
                             toast.error("User rejected transaction.");
                             setLoadingView(false);
                             setAboutDlgViewFlag(false);
                         }
                     }}
                     onCancel={() => {
-                        console.log("2");
                         setAboutDlgViewFlag(false);
                     }}
                 />

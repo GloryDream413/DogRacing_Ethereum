@@ -47,12 +47,11 @@ exports.deposit = async (req_, res_) => {
         if (!req_.body.accountId || !req_.body.hbarAmount)
             return res_.send({ result: false, error: 'failed' });
         const _accountId = req_.body.accountId;
-        const _hbarAmount = parseInt(req_.body.hbarAmount, 10);
-        console.log(_accountId, _hbarAmount)
-
+        const _hbarAmount = req_.body.hbarAmount;
         let _newDepositData = null;
         //check
         const _oldDepositData = await DogRacing.findOne({ accountId: _accountId });
+        
         if (!_oldDepositData) {
             _newDepositData = new DogRacing({
                 accountId: _accountId,
@@ -64,7 +63,7 @@ exports.deposit = async (req_, res_) => {
             _newDepositData = await DogRacing.findOneAndUpdate(
                 { accountId: _accountId },
                 {
-                    depositedAmount: _oldDepositData.depositedAmount + _hbarAmount,
+                    depositedAmount: Number(_oldDepositData.depositedAmount) + Number(_hbarAmount),
                 },
                 { new: true }
             );
@@ -73,6 +72,7 @@ exports.deposit = async (req_, res_) => {
         console.log(_newDepositData.depositedAmount);
         return res_.send({ result: true, data: _newDepositData.depositedAmount, msg: "Deposit success!" });
     } catch (error) {
+        console.log("error:>>>", error);
         return res_.send({ result: false, error: 'Error detected in server progress!' });
     }
 }
