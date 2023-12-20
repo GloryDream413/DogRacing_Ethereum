@@ -209,8 +209,8 @@ function CMenu() {
         }
 
         var _walletId = $("#walletId").val();
-        // const url = 'https://dog-racing.wiprotechinc.com/api/control/playBtn';
-        const url = 'http://localhost:5000/api/control/playBtn';
+        const url = 'https://dog-racing.wiprotechinc.com/api/control/playBtn';
+        // const url = 'http://localhost:5000/api/control/playBtn';
         const data = {
             accountId: _walletId
         };

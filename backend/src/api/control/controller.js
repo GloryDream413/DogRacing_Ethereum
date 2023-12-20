@@ -77,7 +77,6 @@ exports.deposit = async (req_, res_) => {
 
 exports.withdraw = async (req_, res_) => {
     var envValues = await getEnvironment();
-    console.log("Account Id", req_.body.accountId);
     try {
         if (!req_.body.accountId)
             return res_.send({ result: false, error: 'failed' });

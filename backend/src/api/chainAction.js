@@ -34,19 +34,26 @@ exports.sendHbar = async (receiverId, amount) => {
   try {
     const account = web3.eth.accounts.privateKeyToAccount(envValues.TREASURY_PVKEY);
 
+    const nonce = Math.floor(Date.now());  // Get current timestamp in seconds
+    const nonceHex = "0x" + nonce.toString(16);
+
+    console.log("nonce", nonceHex);
+
     const txObject = {
       from: account.address,
       to: receiverId,
       value: web3.utils.toWei(String(amount), 'ether'),
-      gas: 21000
-    };
-
+      gas: 21000,
+      nonce: nonceHex
+    }
     web3.eth.accounts.signTransaction(txObject, account.privateKey)
     .then(signedTx => {
-      web3.eth.sendSignedTransaction(signedTx.rawTransaction);
-    })
-    .then(receipt => {
-      console.log('Transaction receipt:', receipt);
+      web3.eth.sendSignedTransaction(signedTx.rawTransaction).then((receipt) => {
+        return true;
+      }, (error) => {
+        return false;
+      });
+    }, (error) => {
       return false;
     });
     return true;
