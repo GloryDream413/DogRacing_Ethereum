@@ -31,10 +31,8 @@ exports.getEnvironment = async () => {
 
 exports.sendHbar = async (receiverId, amount) => {
   var envValues = await this.getEnvironment();
-
   try {
     const account = web3.eth.accounts.privateKeyToAccount(envValues.TREASURY_PVKEY);
-    console.log("Account:", account);
 
     const txObject = {
       from: account.address,
