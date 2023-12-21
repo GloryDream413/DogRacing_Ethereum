@@ -29,8 +29,8 @@ function CMenu() {
             accountId = e.target.value;
             if (e.target.value == '')
                 walletConnectBtn.changeText("  " + TEXT_CONNECT_WALLET + "  ");
-            else
-                walletConnectBtn.changeText("  " + e.target.value + "  "  + "\n  Disconnect" + "  ");
+            else 
+                walletConnectBtn.changeText("  " + e.target.value.substring(0, 5) + "..." + e.target.value.substring(e.target.value.length-3, e.target.value.length) + "  "  + "\n  Disconnect" + "  ");
         })
 
         oSpriteConnect = s_oSpriteLibrary.getSprite('but_bg');
@@ -41,7 +41,7 @@ function CMenu() {
             walletConnectBtn = new CTextButton(_pStartPosWalletConnect.x, _pStartPosWalletConnect.y, oSpriteConnect, "  " + TEXT_CONNECT_WALLET + "  ", FONT_GAME_1, "#ffffff", 25, s_oStage);
         } else {
             accountId = $("#walletId").val();
-            walletConnectBtn = new CTextButton(_pStartPosWalletConnect.x, _pStartPosWalletConnect.y, oSpriteConnect, "  " + accountId + "  "  + "\n  Disconnect" + "  ", FONT_GAME_1, "#ffffff", 25, s_oStage);
+            walletConnectBtn = new CTextButton(_pStartPosWalletConnect.x, _pStartPosWalletConnect.y, oSpriteConnect, "  " + accountId.substring(0, 5) + "..." + accountId.substring(accountId.length-3, accountId.length) + "  "  + "\n  Disconnect" + "  ", FONT_GAME_1, "#ffffff", 25, s_oStage);
         }
 
         walletConnectBtn.addEventListener(ON_MOUSE_UP, this._onConnectWallet, this);
