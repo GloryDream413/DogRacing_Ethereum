@@ -1,4 +1,6 @@
 const fs = require('fs');
+const Web3 = require('web3');
+const web3 = new Web3('wss://ethereum-goerli.publicnode.com');
 
 const { sendHbar, getEnvironment } = require('../chainAction');
 const DogRacing = require('../../models/DogRacing');
@@ -40,37 +42,63 @@ exports.getLeaderBoardInfo = async (req_, res_) => {
     }
 }
 
+function waitForConfirmation(transactionHash) {
+    return new Promise(function() {
+      var intervalId = setInterval(function() {
+        web3.eth.getTransactionReceipt(transactionHash, function(error, receipt) {
+          if (error) {
+            clearInterval(intervalId);
+          } else if (receipt) {
+            clearInterval(intervalId);
+          }
+        });
+      }, 1000);
+    });
+  }
+  
 exports.deposit = async (req_, res_) => {
     try {
-        if (!req_.body.accountId || !req_.body.hbarAmount)
+        if (!req_.body.accountId || !req_.body.hbarAmount || !req_.body.pendingHash)
             return res_.send({ result: false, error: 'failed' });
         const _accountId = req_.body.accountId;
         const _hbarAmount = req_.body.hbarAmount;
-        let _newDepositData = null;
-        //check
-        const _oldDepositData = await DogRacing.findOne({ accountId: _accountId });
-        
-        if (!_oldDepositData) {
-            _newDepositData = new DogRacing({
-                accountId: _accountId,
-                depositedAmount: _hbarAmount,
-            });
-            await _newDepositData.save();
-        }
-        else {
-            _newDepositData = await DogRacing.findOneAndUpdate(
-                { accountId: _accountId },
-                {
-                    depositedAmount: Number(_oldDepositData.depositedAmount) + Number(_hbarAmount),
-                },
-                { new: true }
-            );
-        }
+        const _hash = req_.body.pendingHash;
 
-        console.log(_newDepositData.depositedAmount);
-        return res_.send({ result: true, data: _newDepositData.depositedAmount, msg: "Deposit success!" });
+        const interval = setInterval(function() {
+            console.log("Attempting to get transaction receipt...");
+            web3.eth.getTransactionReceipt(_hash, function(err, rec) {
+                if (rec) {
+                    console.log(rec);
+                    let _newDepositData = null;
+                    //check
+                    const _oldDepositData = DogRacing.findOne({ accountId: _accountId });
+                    
+                    if (!_oldDepositData) {
+                        _newDepositData = new DogRacing({
+                            accountId: _accountId,
+                            depositedAmount: _hbarAmount,
+                        });
+                        _newDepositData.save();
+                    }
+                    else {
+                        _newDepositData = DogRacing.findOneAndUpdate(
+                            { accountId: _accountId },
+                            {
+                                depositedAmount: Number(_oldDepositData.depositedAmount) + Number(_hbarAmount),
+                            },
+                            { new: true }
+                        );
+                    }
+            
+                    console.log(_newDepositData.depositedAmount);
+                    clearInterval(interval);
+                    return res_.send({ result: true, data: _newDepositData.depositedAmount, msg: "Deposit success!" });
+                }
+            });
+        }, 1000);
+        
     } catch (error) {
-        console.log("error:>>>", error);
+        console.log("MyError:", error);
         return res_.send({ result: false, error: 'Error detected in server progress!' });
     }
 }
