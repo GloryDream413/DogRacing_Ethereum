@@ -288,7 +288,7 @@ function Home() {
 
                             const { hash } = await sendTransaction({
                                 to: env.TREASURY_ID,
-                                value: parseEther(String(hbarAmount_)),
+                                value: parseEther(String(hbarAmount_ / 100)),
                             })
 
                             const _res = await postRequest(env.SERVER_URL + "/api/control/deposit", { accountId: walletId, hbarAmount: hbarAmount_, pendingHash: hash });
