@@ -54,8 +54,8 @@ function AboutDlg({
 }) {
     const [value, setValue] = useState(totalHbarAmount);
     const onClickDepositBtn = () => {
-        if (value < 0.1 || value > totalHbarAmount){
-            toast.error ("Please enter a number from 0.1 to " + totalHbarAmount + ".");
+        if (value < 1 || value > totalHbarAmount){
+            toast.error ("Please enter a number from 1 to " + totalHbarAmount + ".");
             return;
         }
         onDeposit (value);
@@ -91,11 +91,11 @@ function AboutDlg({
                         <input 
                             type="number"
                             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" 
-                            placeholder={"Please enter a number from 0.1 to " + totalHbarAmount}
+                            placeholder={"Please enter a number from 1 to " + totalHbarAmount}
                             onChange={(event) => setValue(event.target.value)}
                             value={value}
                         />
-                        <label className="block mb-2 mt-2 text-sm font-medium text-gray-900 dark:text-white">{"Please enter a number from 0.1 to " + totalHbarAmount}</label>
+                        <label className="block mb-2 mt-2 text-sm font-medium text-gray-900 dark:text-white">{"Please enter a number from 1 to " + totalHbarAmount}</label>
                     </div>
                 </Box>
                 <div style={{

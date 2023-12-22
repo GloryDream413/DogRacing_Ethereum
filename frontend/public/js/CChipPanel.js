@@ -36,7 +36,7 @@ function CChipPanel(iX,iY,oParentContainer){
                     18, 37, 110, 14, 
                     14, "center", "#ffde00", SECONDARY_FONT, 1,
                     0, 0,
-                    TEXT_MIN_BET + ": " + MIN_BET + " " +TEXT_CURRENCY,
+                    TEXT_MIN_BET + ": " + MIN_BET + " " + TEXT_CURRENCY,
                     true, true, false,
                     false );
 
