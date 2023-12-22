@@ -95,8 +95,8 @@ function CGame(iTotBet) {
         setVolume("soundtrack", 1);
         var _walletId = $("#walletId").val();
 
-        const url = 'https://dog-racing.wiprotechinc.com/api/control/exitBtn';
-        // const url = 'http://localhost:5000/api/control/exitBtn';
+        // const url = 'https://dog-racing.wiprotechinc.com/api/control/exitBtn';
+        const url = 'http://localhost:5000/api/control/exitBtn';
         const data = {
             accountId: _walletId
         };

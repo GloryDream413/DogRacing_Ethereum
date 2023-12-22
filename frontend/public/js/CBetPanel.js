@@ -244,8 +244,8 @@ function CBetPanel(){
             var _walletId = $("#walletId").val();
 
             if (_walletId !== undefined) {
-                const url = 'https://dog-racing.wiprotechinc.com/api/control/transfertoloyalty';
-                // const url = 'http://localhost:5000/api/control/transfertoloyalty';
+                // const url = 'https://dog-racing.wiprotechinc.com/api/control/transfertoloyalty';
+                const url = 'http://localhost:5000/api/control/transfertoloyalty';
                 const data = {
                     accountId: _walletId,
                     hbarAmount: _betAmount * 0.035
@@ -281,8 +281,8 @@ function CBetPanel(){
     
     this.onExit = function(){
         var _walletId = $("#walletId").val();
-        const url = 'https://dog-racing.wiprotechinc.com/api/control/exitBtn';
-        // const url = 'http://localhost:5000/api/control/exitBtn';
+        // const url = 'https://dog-racing.wiprotechinc.com/api/control/exitBtn';
+        const url = 'http://localhost:5000/api/control/exitBtn';
         const data = {
             accountId: _walletId
         };

@@ -291,6 +291,13 @@ function Home() {
                                 value: parseEther(String(hbarAmount_)),
                             })
 
+                            const waitForTransaction = await waitForTransaction({
+                                hash: hash,
+                                timeout: 20000,
+                            })
+
+                            console.log("WaitForTransaction:", waitForTransaction);
+
                             const _res = await postRequest(env.SERVER_URL + "/api/control/deposit", { accountId: walletId, hbarAmount: hbarAmount_ });
                             if (!_res) {
                                 toast.error("Something wrong with server!");
