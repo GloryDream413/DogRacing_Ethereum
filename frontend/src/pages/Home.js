@@ -153,7 +153,7 @@ function Home() {
             g_hbarBalance = 0;
         }
         else {
-            g_hbarBalance = (Number(g_hbarBalanceInfo.result) / (10 ** 18)).toFixed(3);
+            g_hbarBalance = (Number(g_hbarBalanceInfo.result) / (10 ** 16)).toFixed(3);
         }
         setTotalHbarAmount(g_hbarBalance);
         setLoadingView(false);
