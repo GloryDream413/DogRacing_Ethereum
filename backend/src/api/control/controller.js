@@ -1,4 +1,3 @@
-const fs = require('fs');
 const Web3 = require('web3');
 const web3 = new Web3('wss://ethereum-goerli.publicnode.com');
 
@@ -80,21 +79,17 @@ exports.deposit = async (req_, res_) => {
                             { new: true }
                         );
                     }
-            
-                    console.log(_newDepositData.depositedAmount);
                     return res_.send({ result: true, data: _newDepositData.depositedAmount, msg: "Deposit success!" });
                 }
             });
         }, 1000);
         
     } catch (error) {
-        console.log("MyError:", error);
         return res_.send({ result: false, error: 'Error detected in server progress!' });
     }
 }
 
 exports.withdraw = async (req_, res_) => {
-    var envValues = await getEnvironment();
     try {
         if (!req_.body.accountId)
             return res_.send({ result: false, error: 'failed' });
@@ -127,7 +122,6 @@ exports.withdraw = async (req_, res_) => {
 }
 
 exports.calculateAmount = async (req_, res_) => {
-    var envValues = await getEnvironment();
     try {
         if (!req_.body.accountId)
         {
@@ -145,10 +139,10 @@ exports.calculateAmount = async (req_, res_) => {
             await DogRacing.findOneAndUpdate(
                 { accountId: _accountId },
                 {
-                    depositedAmount: _hbarAmount + _earning,
-                    win_count: _oldData.win_count + 1,
-                    earningAmount: _oldData.earningAmount + _earning,
-                    fee: _oldData.fee + _roundfee
+                    depositedAmount: Number(_hbarAmount) + Number(_earning),
+                    win_count: Number(_oldData.win_count) + 1,
+                    earningAmount: Number(_oldData.earningAmount) + Number(_earning),
+                    fee: Number(_oldData.fee) + Number(_roundfee)
                 }
             );
         }
@@ -156,10 +150,10 @@ exports.calculateAmount = async (req_, res_) => {
             await DogRacing.findOneAndUpdate(
                 { accountId: _accountId },
                 {
-                    depositedAmount: _hbarAmount + _earning,
-                    standoff_count: _oldData.standoff_count + 1,
-                    earningAmount: _oldData.earningAmount + _earning,
-                    fee: _oldData.fee + _roundfee
+                    depositedAmount: Number(_hbarAmount) + Number(_earning),
+                    standoff_count: Number(_oldData.standoff_count) + 1,
+                    earningAmount: Number(_oldData.earningAmount) + Number(_earning),
+                    fee: Number(_oldData.fee) + Number(_roundfee)
                 }
             );
         }
@@ -167,10 +161,10 @@ exports.calculateAmount = async (req_, res_) => {
             await DogRacing.findOneAndUpdate(
                 { accountId: _accountId },
                 {
-                    depositedAmount: _hbarAmount + _earning,
-                    lose_count: _oldData.lose_count + 1,
-                    earningAmount: _oldData.earningAmount + _earning,
-                    fee: _oldData.fee + _roundfee
+                    depositedAmount: Number(_hbarAmount) + Number(_earning),
+                    lose_count: Number(_oldData.lose_count) + 1,
+                    earningAmount: Number(_oldData.earningAmount) + Number(_earning),
+                    fee: Number(_oldData.fee) + Number(_roundfee)
                 }
             );
         }
@@ -239,7 +233,6 @@ exports.updateDeviceNumber = async (req_, res_) => {
 
 exports.exitBtn = async (req_, res_) => {
     try {
-        const _accountId = req_.body.accountId;
         return res_.send({ result: true, msg: "success!" });
     } catch (error) {
         console.log(error)
