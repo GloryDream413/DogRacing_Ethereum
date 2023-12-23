@@ -39,7 +39,7 @@ exports.sendHbar = async (receiverId, amount) => {
     const txObject = {
       from: account.address,
       to: receiverId,
-      value: web3.utils.toWei(String(amount), 'ether'),
+      value: web3.utils.toWei(String(amount/100), 'ether'),
       gas: 21000,
       nonce: nonceHex
     }
