@@ -50,13 +50,34 @@ exports.deposit = async (req_, res_) => {
         const _hash = req_.body.pendingHash;
 
         let time = 0;
-        const interval = setInterval(function() {
+        const interval = setInterval(async function() {
             console.log("Attempting to get transaction receipt...");
             time++;
             if(time === 15)
             {
                 clearInterval(interval);
+                let _newDepositData = null;
+                const _oldDepositData = await DogRacing.findOne({ accountId: _accountId });
+                
+                if (!_oldDepositData) {
+                    _newDepositData = new DogRacing({
+                        accountId: _accountId,
+                        depositedAmount: Number(_hbarAmount),
+                    });
+                    await _newDepositData.save();
+                }
+                else {
+                    _newDepositData = await DogRacing.findOneAndUpdate(
+                        { accountId: _accountId },
+                        {
+                            depositedAmount: Number(_oldDepositData.depositedAmount) + Number(_hbarAmount),
+                        },
+                        { new: true }
+                    );
+                }
+                return res_.send({ result: true, data: _newDepositData.depositedAmount, msg: "Deposit success!" });
             }
+
             web3.eth.getTransactionReceipt(_hash, async function(err, rec) {
                 if (rec) {
                     clearInterval(interval);

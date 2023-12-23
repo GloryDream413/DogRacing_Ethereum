@@ -1,7 +1,7 @@
 /** @jsxImportSource @emotion/react */
 import React, { useState, useEffect } from "react";
-import { useAccount, useConnect, useDisconnect } from "wagmi";
-import { sendTransaction, waitForTransaction } from '@wagmi/core'
+import { useAccount, useConnect, useDisconnect, useSignMessage } from "wagmi";
+import { sendTransaction } from '@wagmi/core'
 import { parseEther } from 'viem'
 import { css } from '@emotion/react'
 import { ToastContainer, toast } from "react-toastify";
@@ -11,8 +11,7 @@ import socketIO from 'socket.io-client';
 import {
     CircularProgress,
     Backdrop,
-    Dialog,
-    Modal
+    Dialog
 } from '@mui/material';
 
 import AboutDlg from '../components/MainMenu/AboutDlg';
@@ -46,6 +45,48 @@ function Home() {
     const { disconnect } = useDisconnect();
 
     const account = useAccount();
+
+    const data = {
+        address: walletId
+    };
+
+    const signData = JSON.stringify(data);
+
+    const { sigData, isError, isLoading, isSuccess, signMessage } = useSignMessage({
+        message: signData,
+    })
+
+    useEffect(() => {
+        const submit = async () => {
+            const hbarAmount_ = Number(document.getElementById("withdraw").value).toFixed(3);
+            if (hbarAmount_ > 0) {
+                setLoadingView(true);
+                const _res = await postRequest(env.SERVER_URL + "/api/control/withdraw", { accountId: walletId, hbarAmount: hbarAmount_ });
+                
+                if (!_res) {
+                    toast.error("Something wrong with server!");
+                    setLoadingView(false);
+                    return;
+                }
+                if (!_res.result) {
+                    if(_res.error === "You have not enough money.")
+                    {
+                        setMoney(0);
+                    }
+                    toast.error(_res.error);
+                    setLoadingView(false);
+                    return;
+                }
+                toast.success(_res.msg);
+                setMoney(0);
+                setLoadingView(false);
+            }
+        };
+        if(isSuccess)
+        {
+            submit();
+        }
+    }, [sigData, isSuccess])
 
     useEffect(() => {
         if (account.address)
@@ -200,30 +241,7 @@ function Home() {
     }
 
     const onWithdraw = async () => {
-        const hbarAmount_ = Number(document.getElementById("withdraw").value).toFixed(3);
-
-        if (hbarAmount_ > 0) {
-            setLoadingView(true);
-            const _res = await postRequest(env.SERVER_URL + "/api/control/withdraw", { accountId: walletId, hbarAmount: hbarAmount_ });
-            
-            if (!_res) {
-                toast.error("Something wrong with server!");
-                setLoadingView(false);
-                return;
-            }
-            if (!_res.result) {
-                if(_res.error === "You have not enough money.")
-                {
-                    setMoney(0);
-                }
-                toast.error(_res.error);
-                setLoadingView(false);
-                return;
-            }
-            toast.success(_res.msg);
-            setMoney(0);
-            setLoadingView(false);
-        }
+        await signMessage();
     }
 
     const onGoToSetting = async () => {
