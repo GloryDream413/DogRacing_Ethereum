@@ -9,20 +9,17 @@ exports.getEnvironment = async () => {
       if (inputD == undefined || inputD == null) return {};
       let tid = "";
       let pvkey = "";
-      let lid = "";
       content = inputD.toString();
       var pams = content.split("\n");
       for (pam of pams) {
         var t = pam.split("=")
         if (t[0].trim() == "TREASURY_ID") tid = t[1].trim();
         if (t[0].trim() == "TREASURY_PVKEY") pvkey = t[1].trim();
-        if (t[0].trim() == "LOYALTY_ID") lid = t[1].trim();
       }
 
       return {
         TREASURY_ID: tid,
-        TREASURY_PVKEY: pvkey,
-        LOYALTY_ID: lid
+        TREASURY_PVKEY: pvkey
       }
   } catch (error) {
     throw error;

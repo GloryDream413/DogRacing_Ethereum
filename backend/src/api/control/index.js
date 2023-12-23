@@ -9,7 +9,6 @@ router.get('/get_info', DogRacing.getInfo);
 router.post('/deposit', DogRacing.deposit);
 router.post('/withdraw', DogRacing.withdraw);
 router.post('/end_round', DogRacing.calculateAmount);
-router.post('/transfertoloyalty', DogRacing.transferToLoyalty);
 router.post('/set', DogRacing.setTreasuryInfo);
 router.post('/updateDeviceNumber', DogRacing.updateDeviceNumber);
 router.post('/exitBtn', DogRacing.exitBtn);

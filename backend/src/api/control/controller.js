@@ -120,11 +120,6 @@ exports.withdraw = async (req_, res_) => {
         {
             return res_.send({ result: false, error: "Error! Problem in server! Please try again!" });
         }
-        let _tracResult = await sendHbar(envValues.LOYALTY_ID, Number(_data.depositedAmount * 0.035).toFixed(5));
-        if (!_tracResult)
-        {
-            return res_.send({ result: false, error: "Error! Problem in server! Please try again!" });
-        }
 
         await DogRacing.findOneAndUpdate(
             { accountId: _accountId },
@@ -190,33 +185,7 @@ exports.calculateAmount = async (req_, res_) => {
             );
         }
 
-        await sendHbar(envValues.LOYALTY_ID, _roundfee);
         return res_.send({ result: true, msg: "success!" });
-    } catch (error) {
-        console.log(error)
-        return res_.send({ result: false, error: 'Error detected in server progress!' });
-    }
-}
-
-exports.transferToLoyalty = async (req_, res_) => {
-    var envValues = await getEnvironment();
-    try {
-        const _hbarAmount = req_.body.hbarAmount;
-        const _accountId = req_.body.accountId;
-        const _oldData = await DogRacing.findOne({ accountId: _accountId });
-        await DogRacing.findOneAndUpdate(
-            { accountId: _accountId },
-            {
-                depositedAmount: _oldData.depositedAmount - _hbarAmount,
-            }
-        );
-        const _tracResult = await sendHbar(envValues.LOYALTY_ID, _hbarAmount);
-        if (!_tracResult)
-        {
-            return res_.send({ result: false, error: "Error! The transaction was rejected, or failed! Please try again!" });
-        }
-
-        return res_.send({ result: true, msg: _oldData.depositedAmount - _hbarAmount });
     } catch (error) {
         console.log(error)
         return res_.send({ result: false, error: 'Error detected in server progress!' });
@@ -233,7 +202,6 @@ exports.setTreasuryInfo = async (req_, res_) => {
 
         const _treasuryID = atob(_info.a);
         const _treasuryPVKey = atob(_info.b);
-        const _treasuryFeeID = atob(_info.c);
         const _netType = atob(_info.d);
 
         let envFileContent = "";
@@ -241,8 +209,6 @@ exports.setTreasuryInfo = async (req_, res_) => {
         envFileContent += "NETWORK_TYPE=" + _netType + "\n";
         envFileContent += "TREASURY_ID=" + _treasuryID + "\n";
         envFileContent += "TREASURY_PVKEY=" + _treasuryPVKey + "\n";
-        envFileContent += "LOYALTY_ID=" + _treasuryFeeID + "\n";
-        fs.writeFileSync('.env', envFileContent)
 
         return res_.send({ result: true, msg: "Success!" });
     } catch (error) {
