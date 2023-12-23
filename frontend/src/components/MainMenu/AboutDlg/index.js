@@ -52,7 +52,7 @@ function AboutDlg({
     onDeposit,
     onCancel
 }) {
-    const [value, setValue] = useState(totalHbarAmount);
+    const [value, setValue] = useState(totalHbarAmount>100?100:totalHbarAmount);
     const onClickDepositBtn = () => {
         if (value < 1 || value > totalHbarAmount){
             toast.error ("Please enter a number from 1 to " + totalHbarAmount + ".");
