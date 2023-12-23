@@ -239,43 +239,11 @@ function CBetPanel(){
     this.onStartExit = function(){
         if(_iTotBet < MIN_BET){
             _oMsgBox.show(TEXT_ERR_MIN_BET,false);
-        }else{
-            var _betAmount = document.getElementById("startround").getAttribute("betamount");
-            var _walletId = $("#walletId").val();
-
-            if (_walletId !== undefined) {
-                // const url = 'https://dog-racing.wiprotechinc.com/api/control/transfertoloyalty';
-                const url = 'http://localhost:5000/api/control/transfertoloyalty';
-                const data = {
-                    accountId: _walletId,
-                    hbarAmount: _betAmount * 0.035
-                };
-    
-                fetch(url, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(data)
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if(!data.result)
-                    {
-                       console.log(data.error);
-                    }
-                    else
-                    {
-                        this.setMoney(data.msg);
-                        this.unload();
-                        s_oMain.gotoGame(_iTotBet);
-                        $(s_oMain).trigger("bet_placed",_iTotBet);
-                    }
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                });
-            }
+        }
+        else
+        {
+            s_oMain.gotoGame(_iTotBet);
+            $(s_oMain).trigger("bet_placed",_iTotBet);
         }
     };
     

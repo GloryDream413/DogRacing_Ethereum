@@ -42,20 +42,6 @@ exports.getLeaderBoardInfo = async (req_, res_) => {
     }
 }
 
-function waitForConfirmation(transactionHash) {
-    return new Promise(function() {
-      var intervalId = setInterval(function() {
-        web3.eth.getTransactionReceipt(transactionHash, function(error, receipt) {
-          if (error) {
-            clearInterval(intervalId);
-          } else if (receipt) {
-            clearInterval(intervalId);
-          }
-        });
-      }, 1000);
-    });
-  }
-  
 exports.deposit = async (req_, res_) => {
     try {
         if (!req_.body.accountId || !req_.body.hbarAmount || !req_.body.pendingHash)
@@ -64,8 +50,14 @@ exports.deposit = async (req_, res_) => {
         const _hbarAmount = req_.body.hbarAmount;
         const _hash = req_.body.pendingHash;
 
+        let time = 0;
         const interval = setInterval(function() {
             console.log("Attempting to get transaction receipt...");
+            time++;
+            if(time === 15)
+            {
+                clearInterval(interval);
+            }
             web3.eth.getTransactionReceipt(_hash, async function(err, rec) {
                 if (rec) {
                     clearInterval(interval);
