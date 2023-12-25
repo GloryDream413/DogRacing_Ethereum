@@ -1,6 +1,6 @@
 /** @jsxImportSource @emotion/react */
 import React, { useState, useEffect } from "react";
-import { useAccount, useConnect, useDisconnect, useSignMessage } from "wagmi";
+import { useAccount, useConnect, useDisconnect, useSignMessage, useSwitchNetwork, useNetwork } from "wagmi";
 import { sendTransaction } from '@wagmi/core'
 import { parseEther } from 'viem'
 import { css } from '@emotion/react'
@@ -45,6 +45,9 @@ function Home() {
     const { disconnect } = useDisconnect();
 
     const account = useAccount();
+
+    const { chain } = useNetwork()
+    const { error, switchNetwork } = useSwitchNetwork();
 
     const data = {
         address: walletId
@@ -91,6 +94,10 @@ function Home() {
     useEffect(() => {
         if (account.address)
         {
+            if(chain.id !== 5)
+            {
+                switchNetwork(5);
+            }
             setWalletId(account.address);
         }
     }, [account.status, account.address])
@@ -235,9 +242,16 @@ function Home() {
     }
 
     const onDeposit = async () => {
-        setType("deposit");
-        await getWalletBalance();
-        setAboutDlgViewFlag(true);
+        if(chain.id === 5)
+        {
+            setType("deposit");
+            await getWalletBalance();
+            setAboutDlgViewFlag(true);
+        }
+        else
+        {
+            switchNetwork(5);
+        }
     }
 
     const onWithdraw = async () => {
