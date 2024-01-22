@@ -12,7 +12,7 @@ function CPreloader() {
     this._init = function () {
         s_oSpriteLibrary.init(this._onImagesLoaded, this._onAllImagesLoaded, this);
         s_oSpriteLibrary.addSprite("progress_bar", "./sprites/progress_bar.png");
-        s_oSpriteLibrary.addSprite("200x200", "./sprites/200x200.jpg");
+        s_oSpriteLibrary.addSprite("200x200", "./sprites/200x200.svg");
 
         s_oSpriteLibrary.loadSprites();
 

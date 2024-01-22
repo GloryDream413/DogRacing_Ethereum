@@ -22,7 +22,7 @@ var TEXT_ERR_MIN_BET = "YOUR BET IS LOWER THAN MINIMUM ONE!!";
 var TEXT_ARE_YOU_SURE = "ALL YOUR BETS WILL BE LOST!! ARE YOU SURE?";
 var TEXT_RECHARGE = "RECHARGE";
 
-TEXT_SHARE_IMAGE = "200x200.jpg";
+TEXT_SHARE_IMAGE = "200x200.svg";
 TEXT_SHARE_TITLE = "Congratulations!";
 TEXT_SHARE_MSG1 = "You collected <strong>";
 TEXT_SHARE_MSG2 = " points</strong>!<br><br>Share your score with your friends!";
