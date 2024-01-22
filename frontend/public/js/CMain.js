@@ -127,7 +127,7 @@ function CMain(oData) {
         s_oSpriteLibrary.addSprite("but_setting", "./sprites/but_setting.svg");
         s_oSpriteLibrary.addSprite("but_stats", "./sprites/but_stats.svg");
         s_oSpriteLibrary.addSprite("but_forward", "./sprites/but_forward.svg");
-        s_oSpriteLibrary.addSprite("audio_icon", "./sprites/audio_icon.png");
+        s_oSpriteLibrary.addSprite("audio_icon", "./sprites/audio_icon.svg");
         s_oSpriteLibrary.addSprite("but_play", "./sprites/but_play.svg");
         s_oSpriteLibrary.addSprite("but_bg", "./sprites/but_bg.png");
         s_oSpriteLibrary.addSprite("but_restart", "./sprites/but_restart.png");
@@ -135,7 +135,7 @@ function CMain(oData) {
         s_oSpriteLibrary.addSprite("msg_box", "./sprites/msg_box.png");
         s_oSpriteLibrary.addSprite("but_credits", "./sprites/but_credits.svg");
         s_oSpriteLibrary.addSprite("logo_ctl", "./sprites/logo_ctl.png");
-        s_oSpriteLibrary.addSprite("but_fullscreen", "./sprites/but_fullscreen.png");
+        s_oSpriteLibrary.addSprite("but_fullscreen", "./sprites/but_fullscreen.svg");
         s_oSpriteLibrary.addSprite("but_no", "./sprites/but_no.svg");
         s_oSpriteLibrary.addSprite("but_yes", "./sprites/but_yes.svg");
         s_oSpriteLibrary.addSprite("arrow_left", "./sprites/arrow_left.png");
