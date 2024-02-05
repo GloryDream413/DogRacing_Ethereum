@@ -94,9 +94,9 @@ function Home() {
     useEffect(() => {
         if (account.address)
         {
-            if(chain.id !== 5)
+            if(chain.id !== 1)
             {
-                switchNetwork(5);
+                switchNetwork(1);
             }
             setWalletId(account.address);
         }
@@ -155,7 +155,7 @@ function Home() {
         localStorage.setItem ("NETTYPE", _res.data.network);
         localStorage.setItem ("TREASURY_ID", _res.data.id);
 
-        setNetType(_res.data.network);
+        setNetType(_res.data.network);s
         setLoadingView(false);
     }
 
@@ -242,7 +242,7 @@ function Home() {
     }
 
     const onDeposit = async () => {
-        if(chain.id === 5)
+        if(chain.id === 1)
         {
             setType("deposit");
             await getWalletBalance();
@@ -250,7 +250,7 @@ function Home() {
         }
         else
         {
-            switchNetwork(5);
+            switchNetwork(1);
         }
     }
 

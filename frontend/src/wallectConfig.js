@@ -2,10 +2,10 @@ import { configureChains, createConfig } from 'wagmi'
 import { publicProvider } from 'wagmi/providers/public'
 import { MetaMaskConnector } from 'wagmi/connectors/metaMask'
 import { WalletConnectConnector } from 'wagmi/connectors/walletConnect'
-import { goerli } from 'wagmi/chains'
+import { mainnet } from 'wagmi/chains'
 
 const { chains, publicClient, webSocketPublicClient } = configureChains(
-  [goerli],
+  [mainnet],
   [publicProvider()]
 )
 
