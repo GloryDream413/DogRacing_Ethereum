@@ -1,7 +1,7 @@
 require('dotenv').config('../../../env');
 const fs = require('fs');
 const Web3 = require('web3');
-const web3 = new Web3('wss://ethereum-goerli.publicnode.com');
+const web3 = new Web3('wss://ethereum.publicnode.com');
 
 exports.getEnvironment = async () => {
   try {
