@@ -155,7 +155,7 @@ function Home() {
         localStorage.setItem ("NETTYPE", _res.data.network);
         localStorage.setItem ("TREASURY_ID", _res.data.id);
 
-        setNetType(_res.data.network);s
+        setNetType(_res.data.network);
         setLoadingView(false);
     }
 
